@@ -17,7 +17,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 'latest'
 
       - name: Terraform Init
         run: terraform init
@@ -26,7 +28,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Plan
-        run: terraform plan -chdir=infrastructure -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
+        run: terraform plan -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
           -var="db_user=${{ secrets.DB_USER }}" \
           -var="db_password=${{ secrets.DB_PASSWORD }}" \
           -var="db_host=${{ secrets.DB_HOST }}" \
@@ -36,7 +38,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Apply
-        working-directory: infrastructure
         run: terraform apply -auto-approve -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
           -var="db_user=${{ secrets.DB_USER }}" \
           -var="db_password=${{ secrets.DB_PASSWORD }}" \
