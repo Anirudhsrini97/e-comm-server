@@ -26,6 +26,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Plan
+        working-directory: infrastructure
         run: terraform plan -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
           -var="db_user=${{ secrets.DB_USER }}" \
           -var="db_password=${{ secrets.DB_PASSWORD }}" \
@@ -36,6 +37,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Apply
+        working-directory: infrastructure
         run: terraform apply -auto-approve -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
           -var="db_user=${{ secrets.DB_USER }}" \
           -var="db_password=${{ secrets.DB_PASSWORD }}" \
