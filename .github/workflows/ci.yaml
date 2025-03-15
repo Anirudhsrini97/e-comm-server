@@ -26,8 +26,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Terraform Plan
-        working-directory: infrastructure
-        run: terraform plan -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
+        run: terraform plan -chdir=infrastructure -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
           -var="db_user=${{ secrets.DB_USER }}" \
           -var="db_password=${{ secrets.DB_PASSWORD }}" \
           -var="db_host=${{ secrets.DB_HOST }}" \
