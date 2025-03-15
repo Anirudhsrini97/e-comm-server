@@ -1,0 +1,5 @@
+jwt_secret_key = ""
+db_user        = ""
+db_password    = ""
+db_host        = ""
+db_port        = ""
