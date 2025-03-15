@@ -29,7 +29,7 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          terraform plan -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
+          terraform plan -out=tfplan -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
           -var="db_user=${{ secrets.DB_USER }}" \
           -var="db_password=${{ secrets.DB_PASSWORD }}" \
           -var="db_host=${{ secrets.DB_HOST }}" \
