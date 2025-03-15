@@ -40,11 +40,7 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          terraform apply -auto-approve -var="jwt_secret_key=${{ secrets.JWT_SECRET_KEY }}" \
-          -var="db_user=${{ secrets.DB_USER }}" \
-          -var="db_password=${{ secrets.DB_PASSWORD }}" \
-          -var="db_host=${{ secrets.DB_HOST }}" \
-          -var="db_port=${{ secrets.DB_PORT }}"
+          terraform apply tfplan -auto-approve
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
