@@ -1,0 +1,6 @@
+flask
+boto3
+cryptography
+psycopg2-binary
+PyJWT
+gunicorn

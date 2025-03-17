@@ -1,0 +1,13 @@
+bin
+include
+lib
+pyvenv.cfg
+docker-compose-local.env
+infrastructure
+sql
+scripts
+.gitignore
+docker-compose.yaml
+encrypt.py
+public_key.pem
+README.md

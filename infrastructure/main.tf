@@ -23,5 +23,6 @@ resource "aws_secretsmanager_secret_version" "secrets_values" {
     db_password    = var.db_password
     db_host        = var.db_host
     db_port        = var.db_port
+    db_name        = var.db_name
   })
 }
