@@ -12,9 +12,12 @@ spec:
       labels:
         app: flask-app
     spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64  # Ensures pod runs on ARM64 nodes
       containers:
         - name: flask-app
           image: anirudhpugazh97/e-comm-server:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

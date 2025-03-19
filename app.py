@@ -28,8 +28,6 @@ DATABASE_CONFIG = {
     'port': secrets["db_port"]
 }
 
-DATABASE_CONFIG['host'] = 'e-comm-db'
-
 app = Flask(__name__)
 
 # Load RSA private key
