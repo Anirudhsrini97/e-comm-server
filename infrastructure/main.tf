@@ -40,5 +40,6 @@ resource "aws_secretsmanager_secret_version" "secrets_values" {
     db_host        = var.db_host
     db_port        = var.db_port
     db_name        = var.db_name
+    kms_key_id     = aws_kms_key.app_kms_key.arn
   })
 }

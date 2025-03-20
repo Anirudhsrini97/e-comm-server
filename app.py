@@ -11,14 +11,18 @@ from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 from functools import wraps
 
+# Initialize AWS Clients
+kms_client = boto3.client("kms", region_name="us-east-1")
+secret_client = boto3.client('secretsmanager', region_name="us-east-1")
+
 def get_secrets():
-    client = boto3.client('secretsmanager', region_name="us-east-1")
-    secret_value = client.get_secret_value(SecretId="my-app-secrets")
+    secret_value = secret_client.get_secret_value(SecretId="my-app-secrets")
     return json.loads(secret_value['SecretString'])
 
 secrets = get_secrets()
 
 SECRET_KEY = secrets["jwt_secret_key"]
+KMS_KEY_ID = secrets["kms_key_id"]
 
 DATABASE_CONFIG = {
     'dbname': secrets["db_name"],
@@ -59,17 +63,16 @@ def is_valid_email(email):
 def is_valid_password(password):
     return re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", password)
 
+# 🔑 **Decrypt Password Using AWS KMS**
 def decrypt_password(encrypted_password):
     decoded_data = base64.b64decode(encrypted_password)
-    decrypted_password = private_key.decrypt(
-        decoded_data,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
-        )
+
+    response = kms_client.decrypt(
+        CiphertextBlob=decoded_data,
+        KeyId=KMS_KEY_ID
     )
-    return decrypted_password.decode('utf-8')
+
+    return response['Plaintext'].decode('utf-8')
 
 
 # Middleware to validate JWT token
