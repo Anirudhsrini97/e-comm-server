@@ -10,9 +10,25 @@ terraform {
   }
 }
 
+# 1️⃣ Create an AWS KMS RSA 2048 Key
+resource "aws_kms_key" "app_kms_key" {
+  description             = "KMS RSA 2048 key for password encryption"
+  key_usage               = "ENCRYPT_DECRYPT"
+  customer_master_key_spec = "RSA_2048"
+  is_enabled              = true
+  enable_key_rotation     = true
+}
+
+resource "aws_kms_alias" "app_kms_key_alias" {
+  name          = "alias/my-app-kms-key"
+  target_key_id = aws_kms_key.app_kms_key.id
+}
+
+# 2️⃣ Store Secrets in AWS Secrets Manager with KMS Encryption
 resource "aws_secretsmanager_secret" "app_secrets" {
   name        = "my-app-secrets"
   description = "Secrets for Flask app"
+  #kms_key_id  = aws_kms_key.app_kms_key.arn # Use KMS Key for encryption
 }
 
 resource "aws_secretsmanager_secret_version" "secrets_values" {
