@@ -60,6 +60,7 @@ def decrypt_password(encrypted_password):
 
     response = kms_client.decrypt(
         CiphertextBlob=decoded_data,
+        KeyId=KMS_KEY_ID,
         EncryptionAlgorithm="RSAES_OAEP_SHA_256"
     )
 
