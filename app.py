@@ -7,8 +7,6 @@ import base64
 import jwt
 import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization, hashes
 from functools import wraps
 
 # Initialize AWS Clients
@@ -33,13 +31,6 @@ DATABASE_CONFIG = {
 }
 
 app = Flask(__name__)
-
-# Load RSA private key
-with open("private_key.pem", "rb") as key_file:
-    private_key = serialization.load_pem_private_key(
-        key_file.read(),
-        password=None
-    )
 
 def generate_jwt_token(user_id, email, role, username = None):
     expiry_time = datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # Token valid for 1 hour
