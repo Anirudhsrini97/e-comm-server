@@ -16,7 +16,7 @@ resource "aws_kms_key" "app_kms_key" {
   key_usage               = "ENCRYPT_DECRYPT"
   customer_master_key_spec = "RSA_2048"
   is_enabled              = true
-  enable_key_rotation     = true
+  enable_key_rotation     = false
 }
 
 resource "aws_kms_alias" "app_kms_key_alias" {
